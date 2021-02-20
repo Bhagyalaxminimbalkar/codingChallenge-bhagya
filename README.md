@@ -10,16 +10,12 @@ Within the application :-
 # Pre-requisite
 * Java 8, SpringBoot , gradle 
 
-# Library Usage
-* Create the `CsvReader` providing the Reader reading the csv and `CsvParser` Implementation DefaultCsvParser(). 
-* CsvReader reads the data from the reader and return the object as CsvRow having map of column to field value which can
-either integer or string. `CsvRow::getFields()` returning the maps created. 
 
 # Build and Test 
-* Package the library as a jar for usage. Run command `mvnw clean package` creating jar in dist folder.
-* This library is using maven with development and test dependencies. 
-To the run the application run command `mvnw clean compile exec:java`
-* To run unit test run `mvnw test`
+* Package the library as a jar for usage. Run command ./gradlew build 
+* This library is using gradle with development and test dependencies. 
+To the run the application run command `./gradlew clean build --refresh-dependencies`
+* To run unit test run `./gradlew test`
 
 
 <b>Solution :-</b>
@@ -29,7 +25,3 @@ a. which has a utility to read csv files
 b. Merge the catalog via a Service
 c. Update Product feature
 
-For merging basic algo :-
-1. get  the SKU from Catalog a, compare that SKU in barcode A, get the barcode
-2. Check the barcode A in barcode B csv, if its found then the merged catalog will have Product from A
-3. 
