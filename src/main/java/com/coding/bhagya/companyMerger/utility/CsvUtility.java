@@ -20,29 +20,28 @@ import java.util.stream.Stream;
 
 @Component
 public class CsvUtility {
+    public static final String INPUT_PROD_CSV = new File("src/main/resources/input").getAbsolutePath();
+    public static final String HEADER = "SKU,Description,Source";
     private final static String COMMA_DELIMITER = ",";
-
-    public static final String INPUT_PROD_CSV = new File("src/main/resources/input").getAbsolutePath() ;
 
     public String getFileName(String file) {
         File f = new File(INPUT_PROD_CSV + "/" + file);
-        System.out.println("fileNAme "+f.getAbsolutePath());
         return f.getAbsolutePath();
     }
 
-    private  List<List<String>> csvReader(String firstFile) throws IOException {
+    private List<List<String>> csvReader(String firstFile) throws IOException {
 
         List<List<String>> result = Files.readAllLines(Paths.get(getFileName(firstFile)))
                 .stream()
                 .map(line -> Arrays.asList(line.split(COMMA_DELIMITER)))
                 .collect(Collectors.toList());
-    return result.subList(1,result.size());
+        return result;
     }
 
     public List<BarcodeVO> getBarcodeList(String firstFile) throws IOException {
-    List<List<String>> resultList = csvReader(firstFile);
+        List<List<String>> resultList = csvReader(firstFile);
         List<BarcodeVO> result = new ArrayList<>();
-        resultList.stream().map(
+        resultList.subList(1, resultList.size()).stream().map(
                 temp -> result.add(new BarcodeVO(temp.toArray()))).collect(Collectors.toList());
         return result;
     }
@@ -50,7 +49,7 @@ public class CsvUtility {
     public List<CatalogVO> getCatalogList(String firstFile) throws IOException {
         List<List<String>> resultList = csvReader(firstFile);
         List<CatalogVO> result = new ArrayList<>();
-        resultList.stream().map(
+        resultList.subList(1, resultList.size()).stream().map(
                 temp -> result.add(new CatalogVO(temp.toArray()))).collect(Collectors.toList());
         return result;
 
@@ -65,7 +64,7 @@ public class CsvUtility {
         File csvOutputFile = new File(file);
         try (
                 PrintWriter pw = new PrintWriter(csvOutputFile)) {
-            pw.println("SKU,Description,Source");
+            pw.println(HEADER);
             productCatalogList.stream()
                     .map(this::convertToCSV)
                     .forEach(pw::println);
@@ -81,23 +80,14 @@ public class CsvUtility {
     }
 
     public void updateExistingCsvFile(String fileName, String s) throws IOException {
-        fileName=getFileName(fileName);
-        System.out.println(s);
-        List<List<String>> resultList =   Files.readAllLines(Paths.get(fileName))
-                .stream()
-                .map(line -> Arrays.asList(line.split(COMMA_DELIMITER)))
-                .collect(Collectors.toList());
         List<CatalogVO> result = new ArrayList<>();
-        resultList.stream().filter(temp -> !s.contains(temp.get(0)))
+        csvReader(fileName).stream().filter(temp -> !s.contains(temp.get(0)))
                 .map(temp -> result.add(new CatalogVO(temp.toArray())))
                 .collect(Collectors.toList());
-
-        File csvOutputFile = new File(fileName);
+        File csvOutputFile = new File(getFileName(fileName));
         try (
                 PrintWriter pw = new PrintWriter(csvOutputFile)) {
             result.stream().forEach(pw::println);
         }
-
-       // return result;
     }
 }

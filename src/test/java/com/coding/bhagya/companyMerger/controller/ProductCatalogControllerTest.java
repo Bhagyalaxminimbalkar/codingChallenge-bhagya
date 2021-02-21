@@ -16,7 +16,6 @@ import java.net.URISyntaxException;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ProductCatalogControllerTest {
 
-    //public static final String CSV_FILES = "input/barcodesA.csv,input/barcodesB.csv,input/catalogA.csv,input/catalogB.csv";
     public static final String CSV_FILES = "barcodesA.csv,barcodesB.csv,catalogA.csv,catalogB.csv";
 
     @LocalServerPort
@@ -65,6 +64,20 @@ public class ProductCatalogControllerTest {
         headers.set("X-COM-PERSIST", "true");
 
         String input = "123-cov-456,Toilet Paper,catalogA.csv";
+
+        HttpEntity<String> request = new HttpEntity<>(input, headers);
+        ResponseEntity<String> result = testRestTemplate.postForEntity(uri, request, String.class);
+        Assertions.assertEquals(200, result.getStatusCodeValue());
+    }
+
+    @Test
+    public void testUpdateProduct() throws URISyntaxException {
+        final String baseUrl = "http://localhost:" + randomServerPort + "/updateProduct/";
+        URI uri = new URI(baseUrl);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-COM-PERSIST", "true");
+
+        String input = "00006,999-epd-782,b3219999949999,barcodesB.csv";
 
         HttpEntity<String> request = new HttpEntity<>(input, headers);
         ResponseEntity<String> result = testRestTemplate.postForEntity(uri, request, String.class);

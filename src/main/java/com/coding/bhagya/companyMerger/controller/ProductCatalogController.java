@@ -14,7 +14,6 @@ import java.io.IOException;
 public class ProductCatalogController {
 
     public static final String OUTPUT_PROD_CSV = new File("src/main/resources/output").getAbsolutePath() + "/" + "MergedProductCatalog.csv";
-    public static final String INPUT_PROD_CSV = new File("src/main/resources/input").getAbsolutePath();
 
     @Autowired
     private CompanyMergerService companyMergerService;
@@ -42,12 +41,12 @@ public class ProductCatalogController {
         return HttpStatus.OK.toString();
     }
 
-//    @PostMapping(path = "/updateProduct")
-//    public String updateProduct(@RequestBody String file) {
-//        companyMergerService.updateProductToCatalog(file);
-//        return HttpStatus.OK.toString();
-//    }
-//
+    @PostMapping(path = "/updateProduct")
+    public String updateProduct(@RequestBody String input) throws IOException {
+        companyMergerService.updateProductToCatalog(input);
+        return HttpStatus.OK.toString();
+    }
+
 
 
 

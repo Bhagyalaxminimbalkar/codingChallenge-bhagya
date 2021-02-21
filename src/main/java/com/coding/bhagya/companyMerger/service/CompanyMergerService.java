@@ -72,4 +72,10 @@ public class CompanyMergerService {
         csvUtility.updateExistingCsvFile(splitInput[2], splitInput[0] + "," + splitInput[1]);
 
     }
+
+    public void updateProductToCatalog(String input) throws IOException {
+        String[] splitInput = input.split(",");
+        csvUtility.appendExistingCsvFile(csvUtility.getFileName(splitInput[3]), splitInput[0] + "," + splitInput[1] + "," + splitInput[2]);
+
+    }
 }

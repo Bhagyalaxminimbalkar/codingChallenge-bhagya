@@ -7,17 +7,18 @@ Within the application :-
 2. A Service which will merge the catalog
 3. Update Product feature in future
 
-# Pre-requisite
-* Java 8, SpringBoot , gradle 
+I have not included any logging and exception handling, 
+there is scope of few improvements but limiting it based on time.
 
-Build and Test
-Package the library as a jar for usage. Run command ./gradlew build
-This library is using gradle with development and test dependencies. To the run the application run command ./gradlew clean build --refresh-dependencies
+
+# Pre-requisite
+* Java 8, junit5 , SpringBoot , gradle 
+
+# Build and Test
+Package the library as a jar for usage. Run command 
+./gradlew clean build --refresh-dependencies
+This library is using gradle with development and test dependencies. 
+To the run the application run command - ./gradlew bootrun
 To run unit test run ./gradlew test
 
-<b>Solution :-</b>
-<br>
-Create a Java application 
-a. which has a utility to read csv files
-b. Merge the catalog via a Service
-c. Update Product feature
+
